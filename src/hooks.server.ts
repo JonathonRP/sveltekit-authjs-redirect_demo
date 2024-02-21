@@ -25,7 +25,8 @@ function authorization() {
 	return (async ({ event, resolve }) => {
 		const { url, request: { headers }, route } = event;
 
-		if (!(route.id?.includes('auth') || route.id?.includes('linkBuxferAccount')) && !(await event.locals.auth())) {
+		if (!(route.id?.includes('auth') || route.id?.includes('linkBuxferAccount') || route.id?.includes('/'))
+			&& !(await event.locals.auth())) {
 			return redirect(302, loginAndResume(url, '/linkBuxferAccount'));
 		}
 

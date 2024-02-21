@@ -4,10 +4,10 @@ export const actions = {
 	default: async (event) => {
 		const { url, request } = event;
 		const redirectTo = url.searchParams.get('redirectTo');
-		const formData = await request.formData();
+		const data = await request.formData();
 
 		try {
-			const { email, password } = Object.fromEntries(formData);
+			const { email, password } = Object.fromEntries(data);
 
             const token = 'dummy';
 			event.setHeaders({ Authorization: `Bearer: ${token}`});
