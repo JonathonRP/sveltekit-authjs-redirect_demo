@@ -1,12 +1,10 @@
 import { dev } from '$app/environment';
-import { TRPCClientError } from '@trpc/client';
-import { TRPCError } from '@trpc/server';
 import { ZodError } from 'zod';
 
 export const formatError = (error: unknown): App.Error => {
 	if (
 		dev &&
-		(error instanceof TRPCError || error instanceof TRPCClientError || error instanceof Error) &&
+		error instanceof Error &&
 		error.stack
 	) {
 		if (error.cause && error.cause instanceof ZodError) {

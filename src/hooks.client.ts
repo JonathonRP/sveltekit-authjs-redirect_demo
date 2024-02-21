@@ -10,6 +10,6 @@ export const handleError = (async ({ error, event }) =>
 // 	issue: (error as Error)?.stack || (error as App.Error).message || 'Oops!',
 // 	...{ event, errorId, error },
 // });
-
-  formatError(error)
+  console.log(error)
+  // formatError(error)
 ) satisfies HandleClientError;

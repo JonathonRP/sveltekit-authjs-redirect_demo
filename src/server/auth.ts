@@ -1,12 +1,23 @@
 import { SvelteKitAuth, type SvelteKitAuthConfig } from '@auth/sveltekit';
 import { adapter } from '$/server/db';
 import { ulid } from 'ulid';
-import Email from '@auth/sveltekit/providers/nodemailer';
+import nodemailer from '@auth/sveltekit/providers/nodemailer';
+import { RESEND_API_KEY } from '$env/static/private';
 
 export const { handle, signIn, signOut } = SvelteKitAuth(async (event) => ({
+	trustHost: true,
 	providers: [
-		Email({
-			id: 'email'
+		nodemailer({
+			server: {
+				host: 'smtp.resend.com',
+				port: 465,
+				auth: {
+					credentials: {
+						user: 'resend',
+						pass: RESEND_API_KEY
+					}
+				}
+			}
 		})
 	],
 	adapter,

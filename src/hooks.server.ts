@@ -18,20 +18,20 @@ function authentication() {
 
 function loginAndResume(url: URL, loginEndpoint: string, redirectReason?: string) {
 	const { pathname, search } = url;
-	return `${loginEndpoint}${pathname.slice(1, -1) ? `?redirectTo=${pathname.slice(1, -1)}${search}${redirectReason ? `&reason=${redirectReason}` : ''}` : ''}`;
+	return `${loginEndpoint}${pathname ? `?redirectTo=${pathname.slice(1)}${search}${redirectReason ? `&reason=${redirectReason}` : ''}` : ''}`;
 }
 
 function authorization() {
 	return (async ({ event, resolve }) => {
 		const { url, request: { headers }, route } = event;
-		const session = await event.locals.auth();
 
-		if (!session && !route.id?.includes('auth')) {
-			return redirect(302, loginAndResume(url, '/auth'));
+		if (!(route.id?.includes('auth') || route.id?.includes('linkBuxferAccount')) && !(await event.locals.auth())) {
+			return redirect(302, loginAndResume(url, '/linkBuxferAccount'));
 		}
 
 		if (!headers.get('Authorization')) {
 			// notice headers Authorization is never added.
+			console.log('no auth header');
 		}
 
 		// REVIEW - is this needed?
@@ -49,6 +49,6 @@ export const handleError = (async ({ error, event }) => {
 
 // TODO - replace with logging collection data service (ex. Sentry).
 // logger.error((error as Error)?.stack || (error as App.Error).message || 'Oops!', { event, errorId, error });
- console.log('error');
- formatError(error)
+ 	console.log(error);
+//  formatError(error)
 }) satisfies HandleServerError;
