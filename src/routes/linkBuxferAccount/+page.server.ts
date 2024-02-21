@@ -25,6 +25,7 @@ export const actions = {
 			// );
 
             // - also redirect in here gets caught in catch...
+			// redirect(302, locaiton)
 		} catch (err) {
 			// if (err instanceof TRPCError) {
 			// 	const errors = { user: [err.message] };
@@ -48,11 +49,13 @@ export const actions = {
         // 	{
         // 		status: 302,
         // 		headers: {
-        // 			Location,
+        // 			Location: location,
+		//			...AuthorizationHeadersBearerTokenFrom(token)
         // 		},
         // 	}
         // );
 
+		// this works but headers is not present.
 		const location = '/';
 		if (redirectTo?.slice(1)) {
 			location.concat(redirectTo.slice(1));
