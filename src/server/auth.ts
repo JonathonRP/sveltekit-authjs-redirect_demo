@@ -1,12 +1,12 @@
-import { SvelteKitAuth, SvelteKitAuthConfig } from '@auth/sveltekit';
+import { SvelteKitAuth, type SvelteKitAuthConfig } from '@auth/sveltekit';
 import { adapter } from '$/server/db';
 import { ulid } from 'ulid';
-import Email from '@auth/sveltekit/providers/email';
+import Email from '@auth/sveltekit/providers/nodemailer';
 
 export const { handle, signIn, signOut } = SvelteKitAuth(async (event) => ({
 	providers: [
 		Email({
-			type: 'email'
+			id: 'email'
 		})
 	],
 	adapter,
